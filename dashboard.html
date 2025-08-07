@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FocusFlow Dashboard</title>
+  <link rel="stylesheet" type="text/css" href="styles/style.css">
+  <style>
+    /* Additional styles for dashboard */
+    body {
+      width: 500px;
+      padding: 20px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .stat-card {
+      background-color: #f0f2f5;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .stat-card h2 {
+      margin-top: 0;
+      font-size: 16px;
+      color: #606770;
+    }
+    .stat-card .value {
+      font-size: 36px;
+      font-weight: bold;
+      color: #1c1e21;
+    }
+    .time-period {
+      margin-top: 30px;
+      border-top: 1px solid #ddd;
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Statistics Dashboard</h1>
+
+  <div class="time-period">
+    <h2>Today</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h2>Ads Blocked</h2>
+        <p class="value" id="ads-today">0</p>
+      </div>
+      <div class="stat-card">
+        <h2>Cookies Skipped</h2>
+        <p class="value" id="cookies-today">0</p>
+      </div>
+      <div class="stat-card">
+        <h2>Distractions Blocked</h2>
+        <p class="value" id="distractions-today">0</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="time-period">
+    <h2>This Week</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h2>Ads Blocked</h2>
+        <p class="value" id="ads-week">0</p>
+      </div>
+      <div class="stat-card">
+        <h2>Cookies Skipped</h2>
+        <p class="value" id="cookies-week">0</p>
+      </div>
+      <div class="stat-card">
+        <h2>Distractions Blocked</h2>
+        <p class="value" id="distractions-week">0</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="time-period">
+    <h2>All Time</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h2>Ads Blocked</h2>
+        <p class="value" id="ads-total">0</p>
+      </div>
+      <div class="stat-card">
+        <h2>Cookies Skipped</h2>
+        <p class="value" id="cookies-total">0</p>
+      </div>
+      <div class="stat-card">
+        <h2>Distractions Blocked</h2>
+        <p class="value" id="distractions-total">0</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

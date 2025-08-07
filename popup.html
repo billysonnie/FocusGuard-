@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FocusFlow</title>
+  <link rel="stylesheet" type="text/css" href="styles/style.css">
+</head>
+<body>
+  <h1>FocusFlow</h1>
+  <div>
+    <label for="ad-block-toggle">Ad Blocking</label>
+    <input type="checkbox" id="ad-block-toggle" checked>
+  </div>
+  <div>
+    <label for="cookie-block-toggle">Cookie Banners</label>
+    <input type="checkbox" id="cookie-block-toggle" checked>
+  </div>
+  <hr>
+  <div>
+    <h2>Focus Mode</h2>
+    <button id="focus-mode-button">Start Focus</button>
+    <p id="focus-timer"></p>
+  </div>
+  <hr>
+  <div>
+    <h2>Block a Site</h2>
+    <input type="text" id="block-site-input" placeholder="e.g., youtube.com">
+    <button id="block-site-button">Block</button>
+  </div>
+  <hr>
+  <h2>Blocked Sites</h2>
+  <ul id="blocked-sites-list"></ul>
+  <hr>
+  <h2>Whitelist</h2>
+  <button id="whitelist-current-site-button">Whitelist Current Site</button>
+  <ul id="whitelisted-sites-list"></ul>
+  <hr>
+  <h2>Custom Element Blocking</h2>
+  <div>
+    <input type="text" id="custom-rule-selector-input" placeholder="CSS Selector (e.g., .ad-banner)">
+    <input type="text" id="custom-rule-domain-input" placeholder="Domain (e.g., news.com)">
+    <button id="add-custom-rule-button">Add Rule</button>
+  </div>
+  <ul id="custom-rules-list"></ul>
+  <hr>
+  <a href="dashboard.html" target="_blank">View Dashboard</a>
+  <script src="popup.js"></script>
+</body>
+</html>
