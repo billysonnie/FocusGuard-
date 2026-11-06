@@ -86,7 +86,7 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 });
 
 // Listener for ad blocking stats
-chrome.tabs.onCompleted.addListener(async (tabId, changeInfo) => {
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
   // We only care about top-level frame completions
   if (changeInfo.status === 'complete') {
     try {
@@ -121,26 +121,39 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 // Handle ad-blocking on whitelisted sites
+// updateEnabledRulesets is global-only; per-tab exemption needs a session-scoped allow rule
+const whitelistRuleIds = new Map(); // tabId -> session rule id
+let nextSessionRuleId = 1000;
+
 const handleWhitelistingForTab = (tabId, url) => {
   chrome.storage.local.get('whitelistedSites', (result) => {
     const whitelistedSites = result.whitelistedSites || [];
     const hostname = new URL(url).hostname;
+    const existing = whitelistRuleIds.get(tabId);
 
     if (whitelistedSites.includes(hostname)) {
-      // Disable the static ruleset for this tab
-      chrome.declarativeNetRequest.updateEnabledRulesets({
-        disableRulesetIds: ['ruleset_1'],
-        tabId: tabId
+      if (existing) return; // already exempt
+      const ruleId = nextSessionRuleId++;
+      whitelistRuleIds.set(tabId, ruleId);
+      chrome.declarativeNetRequest.updateSessionRules({
+        removeRuleIds: [ruleId],
+        addRules: [{
+          id: ruleId,
+          priority: 1,
+          action: { type: 'allowAllRequests', resourceTypes: ['main_frame'] },
+          condition: { tabIds: [tabId] }
+        }]
       });
-    } else {
-      // Re-enable the static ruleset for this tab
-      chrome.declarativeNetRequest.updateEnabledRulesets({
-        enableRulesetIds: ['ruleset_1'],
-        tabId: tabId
-      });
+    } else if (existing) {
+      whitelistRuleIds.delete(tabId);
+      chrome.declarativeNetRequest.updateSessionRules({ removeRuleIds: [existing] });
     }
   });
 };
+
+chrome.tabs.onRemoved.addListener((tabId) => {
+  whitelistRuleIds.delete(tabId);
+});
 
 // Distraction blocking logic
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
